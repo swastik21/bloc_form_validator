@@ -8,7 +8,6 @@ class SignInScreen extends StatelessWidget {
 
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -22,7 +21,7 @@ class SignInScreen extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                state is CredentialsInValid
+                state is CredentialsInValid && state.errorName == "emailError"
                     ? Text(
                         state.errorMessage,
                         style: const TextStyle(color: Colors.redAccent),
@@ -31,19 +30,30 @@ class SignInScreen extends StatelessWidget {
                 TextField(
                   controller: _emailController,
                   onChanged: (val) {
-                    context.read<SignInBloc>().add(CredentialsChanged(
-                        _emailController.text, _passwordController.text));
+                    context.read<SignInBloc>().add(
+                          CredentialsChanged(_emailController.text,
+                              _passwordController.text, true, false),
+                        );
                   },
                   decoration: const InputDecoration(hintText: "Email"),
                 ),
                 const SizedBox(
                   height: 20,
                 ),
+                state is CredentialsInValid &&
+                        state.errorName == "passwordError"
+                    ? Text(
+                        state.errorMessage,
+                        style: const TextStyle(color: Colors.redAccent),
+                      )
+                    : const SizedBox.shrink(),
                 TextField(
                   controller: _passwordController,
                   onChanged: (val) {
-                    context.read<SignInBloc>().add(CredentialsChanged(
-                        _emailController.text, _passwordController.text));
+                    context.read<SignInBloc>().add(
+                          CredentialsChanged(_emailController.text,
+                              _passwordController.text, false, true),
+                        );
                   },
                   obscureText: true,
                   decoration: const InputDecoration(hintText: "password"),

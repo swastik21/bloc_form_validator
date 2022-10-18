@@ -11,4 +11,7 @@ class CredentialsChanged extends SignInEvent {
       this.email, this.password, this.emailChanged, this.passwordChanged);
 }
 
-class SignInInitiated extends SignInEvent {}
+class SignInInitiated extends SignInEvent {
+  final Status status;
+  SignInInitiated(this.status);
+}

@@ -15,3 +15,5 @@ class CredentialsInValid extends SignInState {
 class CredentialsEmpty extends SignInState {}
 
 class SignInLoading extends SignInState {}
+
+class SignInLoaded extends SignInState {}

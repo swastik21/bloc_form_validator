@@ -1,5 +1,6 @@
 import 'package:bloc_form_validator/buisness_logic/bloc/sign_in_bloc.dart';
 import 'package:bloc_form_validator/presentation/screens/signin_screen.dart';
+import 'package:bloc_form_validator/repo/test_repo.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -27,7 +28,7 @@ class WelcomeScreen extends StatelessWidget {
                 context,
                 MaterialPageRoute(
                   builder: (context) => BlocProvider(
-                    create: (context) => SignInBloc(),
+                    create: (context) => SignInBloc(repo: TestRepo()),
                     child: SignInScreen(),
                   ),
                 ),

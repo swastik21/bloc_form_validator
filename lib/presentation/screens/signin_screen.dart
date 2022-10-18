@@ -1,4 +1,6 @@
 import 'package:bloc_form_validator/buisness_logic/bloc/sign_in_bloc.dart';
+import 'package:bloc_form_validator/presentation/screens/home_screen.dart';
+import 'package:bloc_form_validator/repo/test_repo.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -15,7 +17,14 @@ class SignInScreen extends StatelessWidget {
       padding: const EdgeInsets.all(40.0),
       child: SizedBox(
         width: double.infinity,
-        child: BlocBuilder<SignInBloc, SignInState>(
+        child: BlocConsumer<SignInBloc, SignInState>(
+          listener: (context, state) {
+            if (state is SignInLoaded) {
+              debugPrint("inside state loaded");
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => const HomeScreen()));
+            }
+          },
           builder: (context, state) {
             return Column(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -67,7 +76,11 @@ class SignInScreen extends StatelessWidget {
                         ? Colors.blueAccent
                         : Colors.grey,
                     onPressed: () {
-                      context.read<SignInBloc>().add(SignInInitiated());
+                      if (state is CredentialsValidated) {
+                        context
+                            .read<SignInBloc>()
+                            .add(SignInInitiated(Status.loading));
+                      }
                     },
                     child: state is SignInLoading
                         ? const Center(
